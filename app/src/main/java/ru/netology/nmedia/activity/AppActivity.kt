@@ -56,8 +56,13 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
                 )
         }
 
-        viewModel.data.observe(this) {
+        viewModel.data.observe(this) { authState ->
             invalidateOptionsMenu()
+            if (authState.id != 0L) {
+                viewModel.refreshPostData(this)
+            } else {
+                viewModel.refreshPostData(this)
+            }
         }
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->

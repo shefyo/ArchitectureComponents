@@ -35,7 +35,6 @@ private val empty = Post(
 private val noPhoto = PhotoModel()
 
 @OptIn(ExperimentalCoroutinesApi::class)
-@HiltViewModel
 class PostViewModel @Inject constructor(
     private val repository: PostRepository,
     auth: AppAuth,
@@ -85,7 +84,7 @@ class PostViewModel @Inject constructor(
     val auth: LiveData<AuthState>
         get() = _auth
 
-    fun refreshPosts() = viewModelScope.launch {
+    fun refreshData() = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(refreshing = true)
             repository.getAll()
