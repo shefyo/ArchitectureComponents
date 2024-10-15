@@ -11,28 +11,11 @@ import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.auth.AuthState
 import javax.inject.Inject
 
-
 @HiltViewModel
-    class AuthViewModel @Inject constructor(private val auth: AppAuth, private val postViewModel: PostViewModel) : ViewModel() {
-        val data: LiveData<AuthState> = auth.authStateFlow
-            .asLiveData(Dispatchers.Default)
+class AuthViewModel @Inject constructor(private val auth: AppAuth) : ViewModel() {
+    val data: LiveData<AuthState> = auth.authStateFlow
+        .asLiveData(Dispatchers.Default)
 
-    fun refreshPostData(viewModelStoreOwner: ViewModelStoreOwner) {
-        val postViewModel = ViewModelProvider(viewModelStoreOwner).get(PostViewModel::class.java)
-        postViewModel.refreshData()
-    }
-
-    init {
-        data.observeForever { authState ->
-            if (authState.id != 0L) {
-                postViewModel.refreshData()
-            } else {
-                postViewModel.refreshData()
-            }
-        }
-    }
-
-        val authenticated: Boolean
-            get() = auth.authStateFlow.value.id != 0L
-
-    }
+    val authenticated: Boolean
+        get() = auth.authStateFlow.value.id != 0L
+}

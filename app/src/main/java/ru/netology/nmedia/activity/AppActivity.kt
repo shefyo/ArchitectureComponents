@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -22,6 +23,7 @@ import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.viewmodel.AuthViewModel
+import ru.netology.nmedia.viewmodel.PostViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -59,9 +61,11 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
         viewModel.data.observe(this) { authState ->
             invalidateOptionsMenu()
             if (authState.id != 0L) {
-                viewModel.refreshPostData(this)
+                val postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
+                postViewModel.refreshData()
             } else {
-                viewModel.refreshPostData(this)
+                val postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
+                postViewModel.refreshData()
             }
         }
 
